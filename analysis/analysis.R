@@ -492,13 +492,14 @@ all_paths = map(all_stops_with_data, function(s) {
 }) %>% bind_rows()
 
 # some setup to allow plotting individual subway routes on a map
+# NOTES: previously routes_shapes instead of scheduled_trips
 track_coordinates = query("
   SELECT
     rs.route_mta_id,
     p.sequence,
     p.latitude,
     p.longitude
-  FROM routes_shapes rs
+  FROM scheduled_trips rs
     INNER JOIN shapes p ON rs.shape_mta_id = p.mta_id
   ORDER BY rs.route_mta_id, p.sequence
 ") %>%

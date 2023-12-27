@@ -1,9 +1,11 @@
+DROP TABLE IF EXISTS possible_bad_trips;
 CREATE TABLE possible_bad_trips AS
 SELECT *
 FROM realtime_trips
 WHERE route_mta_id NOT IN ('FS', 'GS', 'H')
   AND most_recently_observed_at - first_observed_at < '10 minutes'::interval;
 
+DROP TABLE IF EXISTS merge_candidates;
 CREATE TABLE merge_candidates AS
 SELECT
   bad.id AS bad_trip_id,
@@ -19,6 +21,7 @@ FROM possible_bad_trips bad
     AND t.most_recently_observed_at - t.first_observed_at >= '10 minutes'::interval
 ORDER BY bad.id, t.id;
 
+DROP TABLE IF EXISTS merge_candidates_single;
 CREATE TABLE merge_candidates_single as
 SELECT *
 FROM merge_candidates

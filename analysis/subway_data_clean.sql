@@ -2,6 +2,7 @@
 consider checking/running merge_trips.sql before running these queries
 */
 
+DROP TABLE IF EXISTS estimated_stop_times;
 CREATE TABLE estimated_stop_times AS
 SELECT DISTINCT ON (realtime_trip_id, stop_mta_id) *
 FROM stop_time_updates
@@ -22,6 +23,7 @@ SELECT
 FROM realtime_trips;
 CREATE UNIQUE INDEX ON tmp_realtime_trips (id);
 
+DROP TABLE IF EXISTS times_between_trains;
 CREATE TABLE times_between_trains AS
 SELECT
   u.stop_mta_id,
@@ -53,11 +55,13 @@ DELETE FROM times_between_trains WHERE seconds_until_next_departure > 60 * 60 * 
 CREATE INDEX ON times_between_trains (stop_mta_id);
 CREATE INDEX ON times_between_trains (route_mta_id);
 
+DROP TABLE IF EXISTS route_stop_direction_counts;
 CREATE TABLE route_stop_direction_counts AS
 SELECT route_mta_id, stop_mta_id, direction, COUNT(*)
 FROM times_between_trains
 GROUP BY route_mta_id, stop_mta_id, direction;
 
+DROP TABLE IF EXISTS subway_data_clean;
 CREATE TABLE subway_data_clean AS
 SELECT
   t.realtime_trip_id,
@@ -73,10 +77,11 @@ FROM times_between_trains t
     AND t.direction = c.direction
 WHERE seconds_until_next_departure BETWEEN 20 AND (60 * 60 * 2)
   AND (
-    c.count > 1000
-    OR (c.route_mta_id = 'Z' AND c.count > 300)
+    c.count > 1000 -- NOTES: default 1000, can be lower for smaller datasets
+    OR (c.route_mta_id = 'Z' AND c.count > 300) -- NOTES: default 300, can be lower for smaller datasets
   );
 
+DROP TABLE IF EXISTS station_to_station_travel_times;
 CREATE TABLE station_to_station_travel_times AS
 SELECT
   t1.realtime_trip_id,
@@ -96,6 +101,7 @@ WHERE t2.arrival_time IS NOT NULL
   AND t1.departure_time IS NOT NULL
 ORDER BY t1.realtime_trip_id, t1.departure_time, t2.arrival_time;
 
+DROP TABLE IF EXISTS station_to_station_summary;
 CREATE TABLE station_to_station_summary AS
 SELECT
   route_mta_id,
@@ -115,6 +121,7 @@ WHERE EXTRACT(dow FROM departure_time) BETWEEN 1 AND 5
 GROUP BY route_mta_id, from_stop_mta_id, to_stop_mta_id
 ORDER BY from_stop_mta_id, to_stop_mta_id, route_mta_id;
 
+DROP TABLE IF EXISTS station_to_station_summary_yearly;
 CREATE TABLE station_to_station_summary_yearly AS
 SELECT
   route_mta_id,

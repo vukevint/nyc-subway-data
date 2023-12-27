@@ -20,22 +20,22 @@ class SubwayGtfsImporter
     {
       table_name: "routes",
       file_name: "routes.txt",
-      copy_schema: "mta_id, agency_mta_id, short_name, long_name, description, route_type, url, color, text_color, created_at, updated_at"
+      copy_schema: "agency_mta_id, mta_id, short_name, long_name, description, route_type, url, color, text_color, created_at, updated_at"
     },
     {
       table_name: "shapes",
       file_name: "shapes.txt",
-      copy_schema: "mta_id, latitude, longitude, sequence, dist_traveled, created_at, updated_at"
+      copy_schema: "mta_id, sequence, latitude, longitude, created_at, updated_at"
     },
     {
       table_name: "stop_times",
       file_name: "stop_times.txt",
-      copy_schema: "trip_mta_id, arrival_time, departure_time, stop_mta_id, stop_sequence, stop_headsign, pickup_type, drop_off_type, shape_dist_traveled, created_at, updated_at"
+      copy_schema: "trip_mta_id, stop_mta_id, arrival_time, departure_time, stop_sequence, created_at, updated_at"
     },
     {
       table_name: "stops",
       file_name: "stops.txt",
-      copy_schema: "mta_id, code, name, description, latitude, longitude, zone_id, url, location_type, parent_station, created_at, updated_at"
+      copy_schema: "mta_id, name, latitude, longitude, location_type, parent_station, created_at, updated_at"
     },
     {
       table_name: "transfers",
@@ -45,7 +45,7 @@ class SubwayGtfsImporter
     {
       table_name: "scheduled_trips",
       file_name: "trips.txt",
-      copy_schema: "route_mta_id, service_id, mta_id, headsign, direction_id, block_id, shape_mta_id, created_at, updated_at"
+      copy_schema: "route_mta_id, mta_id, service_id, headsign, direction_id, shape_mta_id, created_at, updated_at"
     }
   ]
 
