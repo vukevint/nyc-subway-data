@@ -135,7 +135,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_140412) do
     t.text "service_id", null: false
     t.text "headsign"
     t.integer "direction_id"
-    # t.text "block_id"
     t.text "shape_mta_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -148,7 +147,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_140412) do
     t.integer "sequence", null: false
     t.decimal "latitude"
     t.decimal "longitude"
-    # t.decimal "dist_traveled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mta_id", "sequence"], name: "index_shapes_on_mta_id_and_sequence", unique: true
@@ -174,10 +172,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_140412) do
     t.text "arrival_time"
     t.text "departure_time"
     t.text "stop_mta_id", null: false
-    # t.text "stop_headsign"
-    # t.integer "pickup_type"
-    # t.integer "drop_off_type"
-    # t.decimal "shape_dist_traveled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["trip_mta_id", "stop_mta_id"], name: "index_stop_times_on_trip_mta_id_and_stop_mta_id", unique: true
@@ -185,13 +179,9 @@ ActiveRecord::Schema.define(version: 2020_04_04_140412) do
 
   create_table "stops", force: :cascade do |t|
     t.text "mta_id", null: false
-    # t.text "code"
     t.text "name"
-    # t.text "description"
     t.decimal "latitude"
     t.decimal "longitude"
-    # t.text "zone_id"
-    # t.text "url"
     t.text "location_type"
     t.text "parent_station"
     t.datetime "created_at", null: false

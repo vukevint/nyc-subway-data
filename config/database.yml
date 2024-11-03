@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: nyc_gtfs_production
-  username: gtfs
+  username: kevinvu
   password: <%= ENV['GTFS_DATABASE_PASSWORD'] %>

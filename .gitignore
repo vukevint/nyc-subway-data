@@ -21,3 +21,6 @@
 .Rapp.history
 .DS_Store
 ggmapTemp.png
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
